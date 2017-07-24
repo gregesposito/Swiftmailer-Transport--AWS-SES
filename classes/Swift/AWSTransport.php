@@ -32,7 +32,7 @@
 		 */
 		private $debug;
 		/** the response */
-		private $response;
+		public $response;
 
 		/**
 		* Create a new AWSTransport.
