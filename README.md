@@ -1,5 +1,7 @@
 # What is it?
 
+This is minorly modified fork to allow me to extract the MessageID without the fuss of the ResponseReceivedListener.
+
 It's a simple transport for use with Swiftmailer to send mail over AWS SES.
 
 As on December 2011, Amazon [provides an SMTP interface to SES](http://aws.amazon.com/ses/faqs/#21), so you may prefer to use Swiftmailer's built in SMTP transport.
@@ -49,13 +51,10 @@ Like any other Swiftmailer transport:
 
 # How do I get the message ID on send?
 
-You need to register the Swift_Events_ResponseReceivedListener plugin with a callback.  See example/responseListener.php for details.
+Due to changing response from private to public, just grad the MessageID and RequestID Metadata directly.
 
-    $transport->registerPlugin(
-    	new Swift_Events_ResponseReceivedListener( function ( $message, $body ) {
-    		echo sprintf( "Message-ID %s.\n", $body->SendRawEmailResult->MessageId );
-    	})
-    );
+    $message_id = $transport->response->xml->SendRawEmailResult->MessageId;
+    $response_metadata = $transport->response->xml->ResponseMetadata->RequestId;
 
 # Swiftmailer Version
 
